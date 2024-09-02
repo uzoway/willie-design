@@ -1,0 +1,140 @@
+/* Reset and utility class setup */
+
+@font-face {
+  font-family: "Romie Trial";
+  src: url("https://res.cloudinary.com/dp20bvzhn/raw/upload/v1725311235/willie-design/R_wyedzv.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Neue Haas Unica 500";
+  src: url("https://res.cloudinary.com/dp20bvzhn/raw/upload/v1725311631/willie-design/Neue_Haas_Unica_W1G_Medium_iny9c2.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Neue Haas Unica 800";
+  src: url("https://res.cloudinary.com/dp20bvzhn/raw/upload/v1725311217/willie-design/Neue_Haas_Unica_W1G_Heavy_y6u3o0.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Neue Haas Unica 950";
+  src: url("https://res.cloudinary.com/dp20bvzhn/raw/upload/v1725311218/willie-design/Neue_Haas_Unica_W1G_XBlack_It_ag1wti.woff2") format("woff2");
+  font-weight: 950;
+  font-style: italic;
+  font-display: swap;
+}
+
+:root {
+  --gutter-width: 1vw;
+  --column: 12;
+  --column-width: calc(calc(100vw - (var(--gutter-width) * 13)) / var(--column));
+
+  --ff-romie-trial: "Romie Trial", serif;
+  --ff-nhu-500: "Neue Haas Unica 500", sans-serif;
+  --ff-nhu-800: "Neue Haas Unica 800", sans-serif;
+  --ff-nhu-950: "Neue Haas Unica 950", sans-serif;
+
+  --fc-black: hsla(0, 0%, 0%, 1);
+  --fc-grey-100: hsla(0, 0%, 0%, 0.1);
+  --fc-white-100: hsla(0, 0%, 100%, 1);
+  --fc-white-200: hsla(0, 0%, 100%, 0.4);
+  --fc-grey-200: hsla(0, 0%, 100%, 0.24);
+
+  --animation-primary: 0.735s cubic-bezier(0.62, 0.05, 0.01, 0.99);
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+html,
+body {
+  width: 100vw;
+  height: 100svh;
+  overflow-x: clip;
+  position: relative;
+
+  scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar {
+  display: none;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+/* a {
+  text-decoration: none;
+  color: var(--black);
+}
+
+li {
+  list-style: none;
+  display: inline-flex;
+}
+
+p,
+span,
+a,
+button {
+  line-height: 0.9cap;
+  font-size: clamp(0.75rem, 1rem + 0.25vw, 0.85rem);
+  text-wrap: nowrap;
+}
+
+button {
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
+ul {
+  line-height: 0.9cap;
+} */
+
+/* Grid layout overlay */
+
+.overlay {
+  opacity: 0;
+  position: fixed;
+  inset: 0;
+  background-image: repeating-linear-gradient(to right,
+      hsla(0, 100%, 50%, 0.103),
+      hsla(0, 100%, 50%, 0.103) calc((100% / var(--column)) - var(--gutter-width)),
+      transparent calc((100% / var(--column)) - var(--gutter-width)),
+      transparent calc(100% / var(--column)));
+  background-position: left top;
+  background-size: calc(100% + var(--gutter-width)) 100%;
+  z-index: 1;
+  transition: opacity 0.3s ease;
+  margin: 0 auto;
+  pointer-events: none;
+  max-width: 90rem;
+  padding: 0 1vw;
+}
+
+.overlay.active {
+  opacity: 1;
+}
+
+@media (max-width: 1439px) {
+  .overlay {
+    max-width: calc(100% - 2vw);
+    padding: 0;
+  }
+}
+
+/* Utility Class */
+
+/* Page styling */
