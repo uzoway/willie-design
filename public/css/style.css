@@ -1,9 +1,9 @@
 /* Reset and utility class setup */
 
 @font-face {
-  font-family: "Romie Trial";
-  src: url("https://res.cloudinary.com/dp20bvzhn/raw/upload/v1725311235/willie-design/R_wyedzv.woff2") format("woff2");
-  font-weight: normal;
+  font-family: "Roslindale";
+  src: url("https://res.cloudinary.com/dp20bvzhn/raw/upload/v1725384495/willie-design/Roslindale-DisplayNarrowRegular-Testing_iplgko.woff2") format("woff2");
+  font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
@@ -52,7 +52,7 @@
   --column: 12;
   --column-width: calc(calc(100vw - (var(--gutter-width) * 13)) / var(--column));
 
-  --ff-romie-trial: "Romie Trial", serif;
+  --ff-roslindale: "Roslindale", serif;
   --ff-nhu-400: "Neue Haas Unica 400", sans-serif;
   --ff-nhu-500: "Neue Haas Unica 500", sans-serif;
   --ff-nhu-800: "Neue Haas Unica 800", sans-serif;
@@ -60,11 +60,12 @@
   --ff-nhu-950: "Neue Haas Unica 950", sans-serif;
 
   --fc-black: hsla(0, 0%, 0%, 1);
+  --fc-black-100: hsla(0, 0%, 7%, 1);
   --fc-grey-100: hsla(0, 0%, 0%, 0.1);
   --fc-white-100: hsla(0, 0%, 100%, 1);
   --fc-white-200: hsla(0, 0%, 100%, 0.4);
   --fc-grey-200: hsla(0, 0%, 100%, 0.24);
-
+  --fc-grey-300: hsla(0, 0%, 100%, 0.1);
   --animation-primary: .9s cubic-bezier(1, 0, 0, 1);
 }
 
@@ -82,7 +83,6 @@ body {
   overflow-x: clip;
   position: relative;
   background-color: white;
-  scroll-behavior: smooth;
 }
 
 html {
@@ -171,14 +171,42 @@ html {
   color: var(--fc-black);
 }
 
+.uc-fs16-fw500 {
+  font-size: clamp(0.875rem, 0.8421rem + 0.1754vw, 1rem);
+  font-family: var(--ff-nhu-500);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.005em;
+  color: var(--fc-white-100);
+}
+
+.uc-ffroslindale-fs48-fw400 {
+  font-size: clamp(3rem, 3rem + 0vw, 3rem);
+  font-family: var(--ff-roslindale);
+  font-weight: 400;
+  color: var(--fc-white-100);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.uc-ffnhu-fs48-fw800 {
+  font-size: clamp(3rem, 3rem + 0vw, 3rem);
+  font-family: var(--ff-nhu-800);
+  font-weight: 800;
+  color: var(--fc-white-100);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
 /* Page styling */
 /* Header section */
 .c-header {
-  position: fixed;
+  position: relative;
   width: 100%;
   padding: var(--gutter-width);
   z-index: 2;
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.001);
+  mix-blend-mode: difference;
 }
 
 .c-header p,
@@ -194,7 +222,6 @@ html {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: var(--gutter-width);
-  mix-blend-mode: difference;
 }
 
 .c-header_container .author-wrapper {
@@ -234,7 +261,8 @@ html {
 }
 
 .nav-item_link::before,
-.info-button::before {
+.info-button::before,
+.project-link::before {
   position: absolute;
   content: "";
   width: 100%;
@@ -251,7 +279,8 @@ html {
 }
 
 .nav-item_link:hover::before,
-.info-button:hover::before {
+.info-button:hover::before,
+.project-link:hover::before {
   transform: scaleX(1);
   transform-origin: left;
 }
@@ -290,8 +319,255 @@ html {
   }
 }
 
+/* Contact container */
+.c-contact {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding: 0 var(--gutter-width) var(--gutter-width);
+  background-color: rgba(255, 255, 255, 0.001);
+  mix-blend-mode: difference;
+  z-index: 2;
+}
+
+.c-contact_container {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--gutter-width);
+}
+
+.c-contact_container .menu,
+.c-contact_container .send-message {
+  grid-column: span 2 / span 2;
+  border: none;
+  text-align: left;
+  padding: 12px 1rem;
+  background-color: var(--fc-grey-300);
+  color: var(--fc-white-100);
+  backdrop-filter: blur(10px);
+  text-decoration: none;
+  cursor: pointer;
+  text-wrap: nowrap;
+  border-radius: 2px;
+}
+
+.c-contact_container .menu {
+  display: none;
+}
+
+/* Main section */
+.c-main {
+  width: 100%;
+  min-height: 100svh;
+  background-color: var(--fc-black-100);
+  padding-top: calc(212 / 16 * 1rem);
+  position: absolute;
+  top: 0;
+}
+
+.main-heading_wrapper {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--gutter-width);
+  padding-inline: var(--gutter-width);
+  margin-bottom: calc(74 / 16 * 1rem);
+}
+
+.main-heading {
+  grid-column: 5 / 8;
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+}
+
+.projects-item {
+  height: 100vh;
+  position: relative;
+  width: 100%;
+  padding-top: calc(36 / 16 * 1rem);
+}
+
+.projects-item .projects-item_image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.projects-item .projects-item_description {
+  position: sticky;
+  top: 0;
+  padding-inline: var(--gutter-width);
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.001);
+  mix-blend-mode: difference;
+}
+
+.projects-item_description .sticky-wrapper {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--gutter-width);
+}
+
+.projects-item_description .description-title {
+  grid-column: 9/11;
+  text-wrap: nowrap;
+}
+
+.description-title .project-title {
+  margin-bottom: .5rem;
+  text-wrap: nowrap;
+}
+
+.description-title .project-attribution {
+  margin-bottom: calc(36 / 16 * 1rem);
+}
+
+.description-title .project-link {
+  text-decoration: none;
+  position: relative;
+}
+
+.description-title .project-link[disabled] {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.description-title .project-link[disabled]::before {
+  display: none;
+}
+
+/* Slider */
+.projects-item.slider .projects-item_description {
+  position: sticky;
+  top: 0;
+}
+
+.projects-item.slider .slider-row {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+.slider-row .left-image_wrapper,
+.slider-row .right-image_wrapper {
+  flex-basis: 50%;
+  position: relative;
+  overflow: hidden;
+}
+
+.slider-row .left-image_wrapper img,
+.slider-row .right-image_wrapper img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.slider-row .left-image_wrapper .controls {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.controls .prev-button,
+.controls .next-button {
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+  z-index: 1;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  transition: transform 0.2s ease, filter .5s ease;
+}
+
+.controls .prev-button:hover,
+.controls .next-button:hover {
+  filter: invert(0.3);
+}
+
+.controls .prev-button:focus-visible,
+.controls .next-button:focus-visible {
+  border: 1px solid var(--fc-white-100);
+  outline: none;
+  border-radius: 5px;
+}
+
+.controls button:disabled {
+  cursor: not-allowed;
+}
+
+.controls button:disabled:hover {
+  filter: invert(0);
+}
+
+.controls button:active {
+  transform: scale(0.9);
+}
+
+.controls .prev-button img,
+.controls .next-button img {
+  width: 3rem;
+  height: 3rem;
+  position: relative;
+}
+
+.controls .prev-button img {
+  rotate: 180deg;
+}
+
+.controls .next-button img {
+  margin: 0 0 0 auto;
+}
+
+@keyframes slide-left {
+  0% {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+  }
+
+  100% {
+    clip-path: polygon(0 0, 0 0, 0 100%, 0% 100%);
+  }
+}
 
 /* Responsive Design */
+@media (max-width: 747px) {
+
+  .c-contact_container .menu,
+  .c-contact_container .send-message {
+    width: fit-content;
+  }
+}
+
+@media (max-width: 509px) {
+  .projects-item.slider {
+    height: 160vh;
+  }
+
+  .slider-row {
+    flex-direction: column;
+  }
+
+  .slider-row .left-image_wrapper,
+  .slider-row .right-image_wrapper {
+    flex-basis: 100%;
+    position: relative;
+    height: 80vh;
+  }
+}
+
 @media (max-width: 400px) {
   :root {
     --column: 4;
@@ -313,5 +589,27 @@ html {
   .gmt-time,
   .author-wrapper_title {
     display: none;
+  }
+
+  .c-contact_container {
+    display: flex;
+    gap: calc(var(--gutter-width) / 2);
+  }
+
+  .c-contact_container .menu {
+    display: block;
+  }
+
+  .main-heading_wrapper,
+  .projects-item_description .sticky-wrapper {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .main-heading {
+    grid-column: 1/4;
+  }
+
+  .projects-item_description .description-title {
+    grid-column: 3/5;
   }
 }
