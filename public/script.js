@@ -25,6 +25,25 @@ function initializeAllScripts() {
   }
 
   requestAnimationFrame(raf);
+
+  const hours = document.querySelector("#hour");
+  const minutes = document.querySelector("#minute");
+
+  function updateTime() {
+    const now = new Date();
+    const currentHours = String(now.getUTCHours()).padStart(2, "0");
+    const currentMinutes = String(now.getUTCMinutes()).padStart(2, "0");
+
+    hours.textContent = currentHours;
+    minutes.textContent = currentMinutes;
+    // document.getElementById("time").textContent = `${hours}:${minutes}`;
+  }
+
+  // Update the time once initially
+  updateTime();
+
+  // Set an interval to update the time every minute
+  setInterval(updateTime, 60000); // 60000 milliseconds = 1 minute
 }
 
 window.addEventListener("DOMContentLoaded", initializeAllScripts);
