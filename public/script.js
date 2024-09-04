@@ -23,10 +23,10 @@ function initializeAllScripts() {
   requestAnimationFrame(raf);
 
   // Header nav time update
-  const hours = document.querySelector("#hour");
-  const minutes = document.querySelector("#minute");
+  function updateTime(footerGmtTime) {
+    const hours = footerGmtTime.querySelector("#hour");
+    const minutes = footerGmtTime.querySelector("#minute");
 
-  function updateTime() {
     const now = new Date();
     const currentHours = String(now.getUTCHours()).padStart(2, "0");
     const currentMinutes = String(now.getUTCMinutes()).padStart(2, "0");
@@ -35,9 +35,16 @@ function initializeAllScripts() {
     minutes.textContent = currentMinutes;
   }
 
-  updateTime();
+  // updateTime();
+  document.querySelectorAll(".gmt-time").forEach((footerGmtTime) => {
+    updateTime(footerGmtTime);
+  });
 
-  setInterval(updateTime, 60000);
+  setInterval(() => {
+    document.querySelectorAll(".gmt-time").forEach((footerGmtTime) => {
+      updateTime(footerGmtTime);
+    });
+  }, 60000);
 
   // Image slider
   function slideImages(sliderContainer) {
@@ -127,6 +134,15 @@ function initializeAllScripts() {
     .forEach((sliderContainer) => {
       slideImages(sliderContainer);
     });
+
+  // Update footer year to current year
+  function updateFooterYearToCurrentYear() {
+    const footerYear = document.querySelector(".year");
+    const currentYear = new Date().getFullYear();
+    footerYear.innerHTML = currentYear;
+  }
+
+  updateFooterYearToCurrentYear();
 }
 
 window.addEventListener("DOMContentLoaded", initializeAllScripts);
