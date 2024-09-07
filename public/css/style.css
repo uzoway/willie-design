@@ -233,15 +233,6 @@ html {
   height: fit-content;
 }
 
-[data-faded-out='true'] {
-  transition: opacity 1s ease-out;
-}
-
-[data-faded-out='true'].is-faded_out {
-  opacity: 0;
-  pointer-events: none;
-}
-
 .c-header_container .header-link {
   text-decoration: none;
   position: relative;
@@ -404,7 +395,7 @@ html {
 
 /* Main section */
 .c-main {
-  --clip-path-value: polygon(30% 5%, 70% 5%, 70% 100%, 30% 100%);
+  --clip-path-value: polygon(30% 4%, 70% 4%, 70% 4%, 30% 4%);
   width: 100vw;
   min-height: 100svh;
   background-color: var(--fc-black-100);
@@ -412,6 +403,7 @@ html {
   position: relative;
   z-index: 2;
   clip-path: var(--clip-path-value);
+  overflow-y: clip;
 }
 
 .main-heading_wrapper {
@@ -437,12 +429,8 @@ html {
   background-color: #020202;
   z-index: 10;
   padding: var(--gutter-width);
-  clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
-  /* transition: clip-path 1.4s cubic-bezier(1, 0, 0, 1); */
-}
-
-.modal.active {
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  transition: opacity .5 ease-out;
+  opacity: 0;
 }
 
 .modal .modal-content {
@@ -549,7 +537,7 @@ html {
 
 /* Main content for the main section */
 .main-heading {
-  grid-column: 5 / 8;
+  grid-column: 5 / 12;
   display: flex;
   flex-direction: column;
   gap: .75rem;
@@ -564,6 +552,7 @@ html {
   position: relative;
   width: 100%;
   padding-top: calc(36 / 16 * 1rem);
+  overflow: clip;
 }
 
 .projects-item .projects-item_image {
@@ -1067,4 +1056,37 @@ html {
   .header-link[data-faded-out='true'].is-faded_out {
     opacity: 0;
   }
+}
+
+/* Styles for GSAP Animation */
+[data-load-reveal],
+[data-heading-reveal] {
+  --clip-value: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%);
+  transform: translateY(100%);
+  clip-path: var(--clip-value);
+  will-change: transform;
+  line-height: 1.2;
+  overflow-x: visible;
+}
+
+[data-fade-in] {
+  opacity: 0;
+}
+
+[data-scale-in] {
+  transform: scale(1.5);
+  opacity: 0;
+}
+
+[data-modal-fade] {
+  opacity: 0;
+}
+
+[data-modal-reveal] {
+  --clip-value: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%);
+  transform: translateY(100%);
+  clip-path: var(--clip-value);
+  will-change: transform;
+  line-height: 1.2 !important;
+  overflow-x: visible;
 }
