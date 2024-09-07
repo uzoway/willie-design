@@ -1,7 +1,7 @@
 ("use strict");
 
 function initializeAllScripts() {
-  gsap.registerPlugin(CustomEase);
+  gsap.registerPlugin(CustomEase, ScrollTrigger);
 
   CustomEase.create("ease-in-out-quint", "0.86,0,0.07,1");
 
@@ -21,6 +21,24 @@ function initializeAllScripts() {
   }
 
   requestAnimationFrame(raf);
+
+  function loadAnimation() {
+    const mainSection = document.querySelector(".c-main");
+
+    gsap.to(mainSection, {
+      "--clip-path-value": "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+      duration: 1,
+      scrollTrigger: {
+        trigger: ".c-main_container",
+        start: "top top",
+        scrub: true,
+        end: () => "+=100",
+        pin: true,
+      },
+    });
+  }
+
+  loadAnimation();
 
   // Header nav time update
   function updateTime(footerGmtTime) {
@@ -143,6 +161,73 @@ function initializeAllScripts() {
   }
 
   updateFooterYearToCurrentYear();
+
+  // Modal toggle functionality
+  const modalButtons = document.querySelectorAll("[data-modal-button='open']");
+  const fadedOutElement = document.querySelectorAll("[data-faded-out='true']");
+  const modal = document.querySelector("#modal");
+  const focusableElements =
+    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+  const modalFocusableElements = modal.querySelectorAll(focusableElements);
+  const firstFocusableElement = modalFocusableElements[0];
+  const lastFocusableElement =
+    modalFocusableElements[modalFocusableElements.length - 1];
+
+  modalButtons.forEach((button) => {
+    button.addEventListener("click", () => toggleModal());
+  });
+  modal.addEventListener("keydown", trapFocus);
+
+  function toggleModal() {
+    const isOpen = modal.classList.toggle("active");
+
+    modalButtons.forEach((button) => {
+      if (isOpen) {
+        button.setAttribute("aria-expanded", "true");
+        button.textContent = "Close";
+        fadedOutElement.forEach((element) => {
+          element.classList.add("is-faded_out");
+        });
+      } else {
+        button.setAttribute("aria-expanded", "false");
+        button.textContent = "Info";
+        fadedOutElement.forEach((element) => {
+          element.classList.remove("is-faded_out");
+        });
+      }
+    });
+
+    modalFocusableElements.forEach((elem) =>
+      elem.setAttribute("tabindex", isOpen ? "0" : "-1")
+    );
+
+    if (isOpen) {
+      modal.focus();
+    } else {
+      modalButtons[0].focus();
+    }
+  }
+
+  function trapFocus(e) {
+    if (e.key === "Tab") {
+      if (e.shiftKey) {
+        // Shift + Tab
+        if (document.activeElement === firstFocusableElement) {
+          e.preventDefault();
+          lastFocusableElement.focus();
+        }
+      } else {
+        // Tab
+        if (document.activeElement === lastFocusableElement) {
+          e.preventDefault();
+          firstFocusableElement.focus();
+        }
+      }
+    } else if (e.key === "Escape") {
+      toggleModal();
+    }
+  }
 }
 
-window.addEventListener("DOMContentLoaded", initializeAllScripts);
+// window.addEventListener("DOMContentLoaded", initializeAllScripts);
+document.addEventListener("DOMContentLoaded", initializeAllScripts);
