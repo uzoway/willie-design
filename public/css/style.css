@@ -431,6 +431,11 @@ html {
   padding: var(--gutter-width);
   transition: opacity .5 ease-out;
   opacity: 0;
+  pointer-events: none
+}
+
+.modal.active {
+  pointer-events: all;
 }
 
 .modal .modal-content {
