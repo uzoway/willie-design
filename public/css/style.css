@@ -555,6 +555,10 @@ html {
   gap: .75rem;
 }
 
+.c-main_container .projects {
+  background-color: var(--fc-black-100);
+}
+
 .projects-item {
   height: 100vh;
   position: relative;
@@ -572,12 +576,15 @@ html {
 
 .projects-item .projects-item_description {
   position: sticky;
-  /* top: var(--gutter-width); */
   top: calc(-100px + var(--gutter-width));
   padding-inline: var(--gutter-width);
   width: 100%;
   background-color: rgba(255, 255, 255, 0.001);
   mix-blend-mode: difference;
+}
+
+.projects-item .projects-item_description[data-first-description] {
+  margin-top: 40vh;
 }
 
 .projects-item_description .sticky-wrapper {
@@ -617,7 +624,6 @@ html {
 /* Slider */
 .projects-item.slider .projects-item_description {
   position: sticky;
-  /* top: var(--gutter-width); */
   top: calc(-100px + var(--gutter-width));
 }
 
@@ -650,9 +656,9 @@ html {
   inset: 0;
   width: 100%;
   height: 100%;
-  display: flex;
   justify-content: space-between;
   align-items: center;
+  display: none;
 }
 
 .controls .prev-button,
@@ -720,6 +726,34 @@ html {
   100% {
     clip-path: polygon(0 0, 0 0, 0 100%, 0% 100%);
   }
+}
+
+/* Mouse controls */
+.mouse-controls {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  z-index: 3;
+}
+
+.mouse-controls .prev-control,
+.mouse-controls .next-control {
+  flex-basis: 50%;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.mouse-controls .mouse-controls_arrow {
+  position: absolute;
+  transform: translate(-100%, -100%);
+  width: 3rem !important;
+  height: 3rem !important;
+  pointer-events: none;
+  will-change: transform;
 }
 
 /* Footer */
@@ -814,6 +848,10 @@ html {
   text-wrap: nowrap;
 }
 
+.pin-spacer {
+  background-color: var(--fc-black-100);
+}
+
 /* Responsive Design */
 @media (max-width: 797px) {
 
@@ -854,6 +892,23 @@ html {
 
   .c-main {
     clip-path: unset;
+  }
+
+  .projects-item .projects-item_description,
+  .projects-item.slider .projects-item_description {
+    top: var(--gutter-width);
+  }
+
+  .mouse-controls {
+    display: none;
+  }
+
+  .slider-row .left-image_wrapper .controls {
+    display: flex;
+  }
+
+  .projects-item .projects-item_description[data-first-description] {
+    margin-top: 0vh;
   }
 }
 
