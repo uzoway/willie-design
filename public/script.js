@@ -3,6 +3,7 @@
 function initializeAllScripts() {
   gsap.registerPlugin(CustomEase, ScrollTrigger);
   CustomEase.create("ease-in-out-quint", "0.86,0,0.07,1");
+  CustomEase.create("custom-ease-out", "M0,0 C0.2,0.6 0.35,1 1,1 ");
 
   // Toggle Grid Visualizer
   document.addEventListener("keydown", (event) => {
@@ -21,7 +22,7 @@ function initializeAllScripts() {
 
   requestAnimationFrame(raf);
 
-  function loadAnimation() {
+  function scrollLoadAnimation() {
     const mainSection = document.querySelector("[data-main]");
     const mainSectionContainer = document.querySelector(
       "[data-main-container]"
@@ -30,22 +31,83 @@ function initializeAllScripts() {
     let mm = gsap.matchMedia();
 
     mm.add("(min-width: 797px)", () => {
-      gsap.to(mainSection, {
-        "--clip-path-value": "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
-        duration: 1,
-        scrollTrigger: {
-          trigger: mainSectionContainer,
-          start: () => "top +=212px",
-          scrub: true,
-          end: () => "+=100px",
-          pin: true,
-          pinSpacing: true,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-          once: true,
-        },
-      });
+      gsap.fromTo(
+        mainSection,
+        { "--clip-path-value": "polygon(30% 4%, 70% 4%, 70% 100%, 30% 100%)" },
+        {
+          "--clip-path-value": "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+          duration: 1,
+          scrollTrigger: {
+            trigger: mainSectionContainer,
+            start: () => "top +=212px",
+            scrub: true,
+            end: () => "+=100px",
+            pin: true,
+            pinSpacing: true,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+            once: true,
+          },
+        }
+      );
     });
+  }
+
+  // Loader animation
+  function loadAnimation() {
+    let mm = gsap.matchMedia(),
+      breakPoint = 400;
+
+    mm.add(
+      {
+        isDesktop: `(min-width: ${breakPoint}px)`,
+        isMobile: `(max-width: ${breakPoint - 1}px)`,
+      },
+      (context) => {
+        let { isDesktop, isMobile, reduceMotion } = context.conditions;
+        const loadTl = gsap.timeline({ defaults: { ease: "custom-ease-out" } });
+
+        loadTl
+          .to("[data-load-reveal]", {
+            y: 0,
+            "--clip-value": "polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%)",
+            duration: 1.2,
+            delay: 0.2,
+            stagger: 0.1,
+          })
+          .to("[data-fade-in]", { autoAlpha: 1, duration: 0.8 }, "-=0.9")
+          .to(
+            "[data-main]",
+            {
+              "--clip-path-value":
+                "polygon(30% 4%, 70% 4%, 70% 100%, 30% 100%)",
+              duration: isDesktop ? 2 : 0,
+              onComplete: () => scrollLoadAnimation(),
+              ease: "expo.inOut",
+            },
+            "<"
+          )
+          .to(
+            "[data-heading-reveal]",
+            {
+              y: 0,
+              "--clip-value": "polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%)",
+              duration: 0.63,
+              stagger: 0.15,
+            },
+            isDesktop ? "<0.6" : "0.6"
+          )
+          .to(
+            "[data-scale-in]",
+            {
+              scale: 1,
+              duration: 1.63,
+              autoAlpha: 1,
+            },
+            isDesktop ? "<0.05" : "0.6"
+          );
+      }
+    );
   }
 
   loadAnimation();
@@ -267,8 +329,41 @@ function initializeAllScripts() {
   const lastFocusableElement =
     modalFocusableElements[modalFocusableElements.length - 1];
 
+  // Create the timeline outside the function to avoid recreating it each time
+  const modalRevealTl = gsap.timeline({
+    defaults: { ease: "custom-ease-out" },
+    paused: true,
+  });
+
+  modalRevealTl
+    .to(fadedOutElement, { autoAlpha: 0, duration: 0.35 })
+    .to(".c-main .modal", { autoAlpha: 1, autoAlpha: 1 })
+    .to("[data-modal-reveal]", {
+      y: 0,
+      "--clip-value": "polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%)",
+      duration: 1,
+      stagger: 0.1,
+    })
+    .to(
+      "[data-modal-fade]",
+      { autoAlpha: 1, duration: 0.8, stagger: 0.09 },
+      "-=0.9"
+    );
+
+  // Function to control modal animation
+  function revealModal() {
+    if (modal.classList.contains("active")) {
+      modalRevealTl.play();
+    } else {
+      modalRevealTl.timeScale(1.5).reverse();
+    }
+  }
+
   modalButtons.forEach((button) => {
-    button.addEventListener("click", () => toggleModal());
+    button.addEventListener("click", () => {
+      toggleModal();
+      revealModal();
+    });
   });
   modal.addEventListener("keydown", trapFocus);
 
@@ -279,15 +374,9 @@ function initializeAllScripts() {
       if (isOpen) {
         button.setAttribute("aria-expanded", "true");
         button.textContent = "Close";
-        fadedOutElement.forEach((element) => {
-          element.classList.add("is-faded_out");
-        });
       } else {
         button.setAttribute("aria-expanded", "false");
         button.textContent = "Info";
-        fadedOutElement.forEach((element) => {
-          element.classList.remove("is-faded_out");
-        });
       }
     });
 
