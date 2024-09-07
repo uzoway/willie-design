@@ -2,7 +2,6 @@
 
 function initializeAllScripts() {
   gsap.registerPlugin(CustomEase, ScrollTrigger);
-
   CustomEase.create("ease-in-out-quint", "0.86,0,0.07,1");
 
   // Toggle Grid Visualizer
@@ -23,18 +22,29 @@ function initializeAllScripts() {
   requestAnimationFrame(raf);
 
   function loadAnimation() {
-    const mainSection = document.querySelector(".c-main");
+    const mainSection = document.querySelector("[data-main]");
+    const mainSectionContainer = document.querySelector(
+      "[data-main-container]"
+    );
 
-    gsap.to(mainSection, {
-      "--clip-path-value": "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
-      duration: 1,
-      scrollTrigger: {
-        trigger: ".c-main_container",
-        start: "top top",
-        scrub: true,
-        end: () => "+=100",
-        pin: true,
-      },
+    let mm = gsap.matchMedia();
+
+    mm.add("(min-width: 797px)", () => {
+      gsap.to(mainSection, {
+        "--clip-path-value": "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+        duration: 1,
+        scrollTrigger: {
+          trigger: mainSectionContainer,
+          start: () => "top +=212px",
+          scrub: true,
+          end: () => "+=100px",
+          pin: true,
+          pinSpacing: true,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+          once: true,
+        },
+      });
     });
   }
 
@@ -69,6 +79,9 @@ function initializeAllScripts() {
     // Scoped selectors
     const nextBtn = sliderContainer.querySelector(".next-button");
     const prevBtn = sliderContainer.querySelector(".prev-button");
+
+    const mouseNextBtn = sliderContainer.querySelector(".next-control");
+    const mousePrevBtn = sliderContainer.querySelector(".prev-control");
     const leftImageWrapper = sliderContainer.querySelector(
       ".left-image_wrapper"
     );
@@ -91,8 +104,7 @@ function initializeAllScripts() {
       }, 200);
     }
 
-    // Next button animation
-    nextBtn.addEventListener("click", () => {
+    function nextImageSlide() {
       if (currentIndex < totalImages - 1) {
         let lastChild = leftImageWrapper.querySelector(
           ".left-image:last-child"
@@ -110,10 +122,9 @@ function initializeAllScripts() {
           updateButtonStates();
         }, 800);
       }
-    });
+    }
 
-    // Previous button animation
-    prevBtn.addEventListener("click", () => {
+    function prevImageSlide() {
       if (currentIndex > 0) {
         let firstChild = leftImageWrapper.querySelector(
           ".left-image:first-child"
@@ -140,7 +151,12 @@ function initializeAllScripts() {
             },
           });
       }
-    });
+    }
+
+    nextBtn.addEventListener("click", nextImageSlide);
+    prevBtn.addEventListener("click", prevImageSlide);
+    mouseNextBtn.addEventListener("click", nextImageSlide);
+    mousePrevBtn.addEventListener("click", prevImageSlide);
 
     // Initial button state
     updateButtonStates();
@@ -151,6 +167,84 @@ function initializeAllScripts() {
     .querySelectorAll(".projects-item.slider")
     .forEach((sliderContainer) => {
       slideImages(sliderContainer);
+    });
+
+  // Mouse follow on image slider
+  function moveCustomCursor(sliderContainer) {
+    const controlArrow = sliderContainer.querySelector(".mouse-controls_arrow");
+    const slider = sliderContainer;
+    const mousePrevControl = sliderContainer.querySelector(".prev-control");
+
+    if (!controlArrow || !slider || !mousePrevControl) return;
+
+    const arrowWidth = controlArrow.offsetWidth / 2;
+    const arrowHeight = controlArrow.offsetHeight / 2;
+
+    let xTo = gsap.quickTo(controlArrow, "x", {
+      duration: 0.4,
+      ease: "power3",
+    });
+    let yTo = gsap.quickTo(controlArrow, "y", {
+      duration: 0.4,
+      ease: "power3",
+    });
+
+    let cursorMoveEnabled = false;
+
+    function updateArrowPosition(e) {
+      const sliderRect = slider.getBoundingClientRect();
+      const mouseXPosition = e.clientX - sliderRect.left - arrowWidth;
+      const mouseYPosition = e.clientY - sliderRect.top - arrowHeight;
+
+      xTo(mouseXPosition);
+      yTo(mouseYPosition);
+    }
+
+    function rotateArrow() {
+      gsap.to(controlArrow, { rotation: -180, ease: "expo.inOut" });
+    }
+
+    function resetArrow() {
+      gsap.to(controlArrow, { rotation: 0, ease: "expo.inOut" });
+    }
+
+    function enableCursorMove() {
+      if (window.innerWidth > 797 && !cursorMoveEnabled) {
+        cursorMoveEnabled = true;
+        slider.addEventListener("mousemove", updateArrowPosition);
+        mousePrevControl.addEventListener("mouseenter", rotateArrow);
+        mousePrevControl.addEventListener("mouseleave", resetArrow);
+      } else if (window.innerWidth <= 797 && cursorMoveEnabled) {
+        disableCursorMove();
+      }
+    }
+
+    function disableCursorMove() {
+      cursorMoveEnabled = false;
+      slider.removeEventListener("mousemove", updateArrowPosition);
+      mousePrevControl.removeEventListener("mouseenter", rotateArrow);
+      mousePrevControl.removeEventListener("mouseleave", resetArrow);
+      gsap.set(controlArrow, { clearProps: "all" });
+    }
+
+    // Initial setup
+    enableCursorMove();
+
+    // Listen for window resize
+    window.addEventListener("resize", enableCursorMove);
+
+    // Clean up function
+    return function cleanup() {
+      disableCursorMove();
+      window.removeEventListener("resize", enableCursorMove);
+    };
+  }
+
+  // Calling the move custom cursor function for each slider
+  document
+    .querySelectorAll("[data-project-slider]")
+    .forEach((sliderContainer) => {
+      moveCustomCursor(sliderContainer);
     });
 
   // Update footer year to current year
