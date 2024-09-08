@@ -22,6 +22,49 @@ function initializeAllScripts() {
 
   requestAnimationFrame(raf);
 
+  // function scrollLoadAnimation() {
+  //   const mainSection = document.querySelector("[data-main]");
+  //   const mainSectionContainer = document.querySelector(
+  //     "[data-main-container]"
+  //   );
+
+  //   let mm = gsap.matchMedia();
+
+  //   mm.add("(min-width: 797px)", () => {
+  //     gsap.fromTo(
+  //       mainSection,
+  //       { "--clip-path-value": "polygon(30% 4%, 70% 4%, 70% 100%, 30% 100%)" },
+  //       {
+  //         "--clip-path-value": "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+  //         duration: 1,
+  //         scrollTrigger: {
+  //           // trigger: mainSectionContainer,
+  //           // start: () => "top +=212px",
+  //           // scrub: true,
+  //           // end: () => "+=100px",
+  //           // pin: true,
+  //           // pinSpacing: true,
+  //           // anticipatePin: 1,
+  //           // invalidateOnRefresh: true,
+
+  //           trigger: mainSectionContainer,
+  //           start: () => "top +=212px",
+  //           end: () => "+=100px",
+  //           toggleActions: "play none none reverse",
+  //           scrub: 1,
+  //           pin: true,
+  //           pinSpacing: true,
+  //           anticipatePin: 1,
+  //           invalidateOnRefresh: true,
+  //           markers: true,
+  //         },
+  //       }
+  //     );
+  //   });
+  // }
+
+  let animationHasPlayed = false;
+
   function scrollLoadAnimation() {
     const mainSection = document.querySelector("[data-main]");
     const mainSectionContainer = document.querySelector(
@@ -31,25 +74,48 @@ function initializeAllScripts() {
     let mm = gsap.matchMedia();
 
     mm.add("(min-width: 797px)", () => {
-      gsap.fromTo(
+      let tl = gsap.timeline({
+        paused: true,
+        onComplete: () => {
+          animationHasPlayed = true;
+        },
+      });
+
+      tl.fromTo(
         mainSection,
         { "--clip-path-value": "polygon(30% 4%, 70% 4%, 70% 100%, 30% 100%)" },
         {
           "--clip-path-value": "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
           duration: 1,
-          scrollTrigger: {
-            trigger: mainSectionContainer,
-            start: () => "top +=212px",
-            scrub: true,
-            end: () => "+=100px",
-            pin: true,
-            pinSpacing: true,
-            anticipatePin: 1,
-            invalidateOnRefresh: true,
-            once: true,
-          },
         }
       );
+
+      ScrollTrigger.create({
+        trigger: mainSectionContainer,
+        start: () => "top +=212px",
+        end: () => "+=100px",
+        scrub: 1,
+        pin: true,
+        pinSpacing: true,
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
+        onUpdate: (self) => {
+          if (!animationHasPlayed) {
+            tl.progress(self.progress);
+          }
+        },
+        onLeave: () => {
+          if (!animationHasPlayed) {
+            tl.progress(1);
+            animationHasPlayed = true;
+          }
+        },
+        onEnterBack: () => {
+          if (!animationHasPlayed) {
+            tl.progress(0);
+          }
+        },
+      });
     });
   }
 
