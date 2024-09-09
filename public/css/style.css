@@ -213,6 +213,10 @@ html {
   mix-blend-mode: difference;
 }
 
+.c-header.is-inactive {
+  pointer-events: none;
+}
+
 .c-header p,
 .c-header a,
 .c-header h2,
@@ -295,6 +299,7 @@ html {
   right: var(--gutter-width);
   top: var(--gutter-width);
   z-index: 3;
+  pointer-events: all !important;
 }
 
 .nav-item_link::before,
@@ -1086,7 +1091,8 @@ html {
 
 /* Styles for GSAP Animation */
 [data-load-reveal],
-[data-heading-reveal] {
+[data-heading-reveal],
+.modal-title_lines {
   --clip-value: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%);
   transform: translateY(100%);
   clip-path: var(--clip-value);
