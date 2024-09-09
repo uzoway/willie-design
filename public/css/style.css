@@ -590,6 +590,7 @@ html {
   position: sticky;
   top: var(--gutter-width);
   padding-inline: var(--gutter-width);
+  padding-bottom: var(--gutter-width);
   width: 100%;
   background-color: rgba(255, 255, 255, 0.001);
   mix-blend-mode: difference;
@@ -1086,6 +1087,12 @@ html {
 
   .header-link[data-faded-out='true'].is-faded_out {
     opacity: 0;
+  }
+
+  .prev-button img,
+  .next-button img {
+    width: 1.5rem !important;
+    height: 1.5rem !important;
   }
 }
 
