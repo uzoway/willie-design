@@ -1,7 +1,7 @@
 ("use strict");
 
 function initializeAllScripts() {
-  gsap.registerPlugin(CustomEase, ScrollTrigger);
+  gsap.registerPlugin(CustomEase, ScrollTrigger, SplitText);
   CustomEase.create("ease-in-out-quint", "0.86,0,0.07,1");
   CustomEase.create("custom-ease-out", "M0,0 C0.2,0.6 0.35,1 1,1 ");
 
@@ -23,7 +23,6 @@ function initializeAllScripts() {
   requestAnimationFrame(raf);
 
   // Loader animation
-
   function loadAnimation() {
     const loadTl = gsap.timeline({ defaults: { ease: "custom-ease-out" } });
 
@@ -285,25 +284,44 @@ function initializeAllScripts() {
   const lastFocusableElement =
     modalFocusableElements[modalFocusableElements.length - 1];
 
+  // Split Modal Title
+  let modalTitle = document.querySelector("[data-modal-title]");
+
+  let splitModalText = new SplitText(modalTitle, {
+    type: "lines",
+    linesClass: "modal-title_lines",
+  });
+
+  let modalLines = new SplitText(splitModalText.lines, {
+    type: "lines",
+    linesClass: "modal-lines",
+  });
+
   // Create the timeline outside the function to avoid recreating it each time
   const modalRevealTl = gsap.timeline({
     defaults: { ease: "custom-ease-out" },
     paused: true,
+    onStart: () => {
+      document.querySelector(".c-header").classList.add("is-inactive");
+    },
+    onReverseComplete: () => {
+      document.querySelector(".c-header").classList.remove("is-inactive");
+    },
   });
 
   modalRevealTl
-    .to(fadedOutElement, { autoAlpha: 0, duration: 0.35 })
+    .to(fadedOutElement, { autoAlpha: 0, duration: 0.3 })
     .to(".c-main .modal", { autoAlpha: 1, autoAlpha: 1 })
-    .to("[data-modal-reveal]", {
+    .to("[data-modal-reveal], .modal-title_lines", {
       y: 0,
       "--clip-value": "polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%)",
-      duration: 0.7,
+      duration: 0.55,
       stagger: 0.05,
     })
     .to(
       "[data-modal-fade]",
       { autoAlpha: 1, duration: 0.5, stagger: 0.09 },
-      "-=0.9"
+      "<+0.4"
     );
 
   // Function to control modal animation
