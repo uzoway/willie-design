@@ -22,158 +22,48 @@ function initializeAllScripts() {
 
   requestAnimationFrame(raf);
 
-  // function scrollLoadAnimation() {
-  //   const mainSection = document.querySelector("[data-main]");
-  //   const mainSectionContainer = document.querySelector(
-  //     "[data-main-container]"
-  //   );
-
-  //   let mm = gsap.matchMedia();
-
-  //   mm.add("(min-width: 797px)", () => {
-  //     gsap.fromTo(
-  //       mainSection,
-  //       { "--clip-path-value": "polygon(30% 4%, 70% 4%, 70% 100%, 30% 100%)" },
-  //       {
-  //         "--clip-path-value": "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
-  //         duration: 1,
-  //         scrollTrigger: {
-  //           // trigger: mainSectionContainer,
-  //           // start: () => "top +=212px",
-  //           // scrub: true,
-  //           // end: () => "+=100px",
-  //           // pin: true,
-  //           // pinSpacing: true,
-  //           // anticipatePin: 1,
-  //           // invalidateOnRefresh: true,
-
-  //           trigger: mainSectionContainer,
-  //           start: () => "top +=212px",
-  //           end: () => "+=100px",
-  //           toggleActions: "play none none reverse",
-  //           scrub: 1,
-  //           pin: true,
-  //           pinSpacing: true,
-  //           anticipatePin: 1,
-  //           invalidateOnRefresh: true,
-  //           markers: true,
-  //         },
-  //       }
-  //     );
-  //   });
-  // }
-
-  let animationHasPlayed = false;
-
-  function scrollLoadAnimation() {
-    const mainSection = document.querySelector("[data-main]");
-    const mainSectionContainer = document.querySelector(
-      "[data-main-container]"
-    );
-
-    let mm = gsap.matchMedia();
-
-    mm.add("(min-width: 797px)", () => {
-      let tl = gsap.timeline({
-        paused: true,
-        onComplete: () => {
-          animationHasPlayed = true;
-        },
-      });
-
-      tl.fromTo(
-        mainSection,
-        { "--clip-path-value": "polygon(30% 4%, 70% 4%, 70% 100%, 30% 100%)" },
-        {
-          "--clip-path-value": "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
-          duration: 1,
-        }
-      );
-
-      ScrollTrigger.create({
-        trigger: mainSectionContainer,
-        start: () => "top +=212px",
-        end: () => "+=100px",
-        scrub: 1,
-        pin: true,
-        pinSpacing: true,
-        anticipatePin: 1,
-        invalidateOnRefresh: true,
-        onUpdate: (self) => {
-          if (!animationHasPlayed) {
-            tl.progress(self.progress);
-          }
-        },
-        onLeave: () => {
-          if (!animationHasPlayed) {
-            tl.progress(1);
-            animationHasPlayed = true;
-          }
-        },
-        onEnterBack: () => {
-          if (!animationHasPlayed) {
-            tl.progress(0);
-          }
-        },
-      });
-    });
-  }
-
   // Loader animation
+
   function loadAnimation() {
-    let mm = gsap.matchMedia(),
-      breakPoint = 400;
+    const loadTl = gsap.timeline({ defaults: { ease: "custom-ease-out" } });
 
-    mm.add(
-      {
-        isDesktop: `(min-width: ${breakPoint}px)`,
-        isMobile: `(max-width: ${breakPoint - 1}px)`,
-      },
-      (context) => {
-        let { isDesktop, isMobile, reduceMotion } = context.conditions;
-        const loadTl = gsap.timeline({ defaults: { ease: "custom-ease-out" } });
-
-        loadTl
-          .to("[data-load-reveal]", {
-            y: 0,
-            "--clip-value": "polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%)",
-            duration: 1.2,
-            delay: 0.2,
-            stagger: 0.1,
-          })
-          .to("[data-fade-in]", { autoAlpha: 1, duration: 0.8 }, "-=0.9")
-          .to(
-            "[data-main]",
-            {
-              "--clip-path-value":
-                "polygon(30% 4%, 70% 4%, 70% 100%, 30% 100%)",
-              duration: isDesktop ? 2 : 0,
-              onComplete: () => scrollLoadAnimation(),
-              ease: "expo.inOut",
-            },
-            "<"
-          )
-          .to(
-            "[data-heading-reveal]",
-            {
-              y: 0,
-              "--clip-value": "polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%)",
-              duration: 0.63,
-              stagger: 0.15,
-            },
-            isDesktop ? "<0.6" : "0.6"
-          )
-          .to(
-            "[data-scale-in]",
-            {
-              scale: 1,
-              duration: 1.63,
-              autoAlpha: 1,
-            },
-            isDesktop ? "<0.05" : "0.6"
-          );
-      }
-    );
+    loadTl
+      .to("[data-load-reveal]", {
+        y: 0,
+        "--clip-value": "polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%)",
+        duration: 1.2,
+        delay: 0.2,
+        stagger: 0.1,
+      })
+      .to("[data-fade-in]", { autoAlpha: 1, duration: 0.8 }, "-=0.9")
+      .to(
+        "[data-slide-in]",
+        {
+          "--clip-value": "polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%)",
+          duration: 0.5,
+          ease: "expo.inOut",
+        },
+        "<"
+      )
+      .to(
+        "[data-heading-reveal]",
+        {
+          y: 0,
+          "--clip-value": "polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%)",
+          duration: 0.63,
+          stagger: 0.15,
+        },
+        "<"
+      )
+      .to(
+        "[data-scale-in]",
+        {
+          scale: 1,
+          duration: 1.63,
+          autoAlpha: 1,
+        },
+        "<0.05"
+      );
   }
 
   loadAnimation();
@@ -407,12 +297,12 @@ function initializeAllScripts() {
     .to("[data-modal-reveal]", {
       y: 0,
       "--clip-value": "polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%)",
-      duration: 1,
-      stagger: 0.1,
+      duration: 0.7,
+      stagger: 0.05,
     })
     .to(
       "[data-modal-fade]",
-      { autoAlpha: 1, duration: 0.8, stagger: 0.09 },
+      { autoAlpha: 1, duration: 0.5, stagger: 0.09 },
       "-=0.9"
     );
 
@@ -421,7 +311,7 @@ function initializeAllScripts() {
     if (modal.classList.contains("active")) {
       modalRevealTl.play();
     } else {
-      modalRevealTl.timeScale(1.5).reverse();
+      modalRevealTl.reverse();
     }
   }
 
