@@ -255,8 +255,21 @@ html {
   color: var(--fc-white-100);
 }
 
+.enquires-wrapper .nav-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .enquires-wrapper .nav-list_item {
   list-style: none;
+}
+
+.enquires-wrapper .nav-list_item:nth-child(1) {
+  flex: 1 1 100%;
+}
+
+.enquires-wrapper .nav-list_item:nth-child(3) {
+  margin-left: .25rem;
 }
 
 .enquires-wrapper .nav-list_item .nav-item_link {
@@ -316,12 +329,11 @@ html {
   line-height: 1;
   display: flex;
   align-items: flex-start;
+  gap: 1rem;
+  text-wrap: nowrap;
 }
 
 .gmt-time .time-timezone {
-  position: absolute;
-  left: 0;
-  transform: translateX(-200%);
   line-height: 1;
   text-transform: uppercase;
   color: var(--fc-white-100);
@@ -398,14 +410,12 @@ html {
 
 /* Main section */
 .c-main {
-  --clip-path-value: polygon(30% 4%, 70% 4%, 70% 4%, 30% 4%);
   width: 100vw;
   min-height: 100svh;
   background-color: var(--fc-black-100);
-  padding-top: calc(212 / 16 * 1rem);
+  padding-top: calc(280 / 16 * 1rem);
   position: relative;
   z-index: 2;
-  clip-path: var(--clip-path-value);
   overflow-y: clip;
 }
 
@@ -531,7 +541,7 @@ html {
   height: 100%;
 }
 
-.modal-body video {
+.modal-body img {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -548,7 +558,7 @@ html {
   grid-column: 5 / 12;
   display: flex;
   flex-direction: column;
-  gap: .75rem;
+  gap: .35rem;
 }
 
 .c-main_container .projects {
@@ -573,7 +583,7 @@ html {
 
 .projects-item .projects-item_description {
   position: sticky;
-  top: calc(-100px + var(--gutter-width));
+  top: var(--gutter-width);
   padding-inline: var(--gutter-width);
   width: 100%;
   background-color: rgba(255, 255, 255, 0.001);
@@ -588,6 +598,10 @@ html {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: var(--gutter-width);
+}
+
+.projects-item_description .description-number {
+  height: fit-content;
 }
 
 .projects-item_description .description-title {
@@ -621,7 +635,7 @@ html {
 /* Slider */
 .projects-item.slider .projects-item_description {
   position: sticky;
-  top: calc(-100px + var(--gutter-width));
+  top: var(--gutter-width);
 }
 
 .projects-item.slider .slider-row {
@@ -964,6 +978,10 @@ html {
   .middle-wrapper .wrapper-link {
     grid-column: unset;
   }
+
+  .enquires-wrapper .nav-list_item:nth-child(3) {
+    margin-left: 0rem;
+  }
 }
 
 @media (max-width: 400px) {
@@ -1030,7 +1048,7 @@ html {
     bottom: 9vh;
   }
 
-  .modal-body video {
+  .modal-body img {
     height: auto;
   }
 
@@ -1079,11 +1097,13 @@ html {
 
 [data-fade-in] {
   opacity: 0;
+  will-change: transform;
 }
 
 [data-scale-in] {
-  transform: scale(1.5);
+  transform: scale(1.2);
   opacity: 0;
+  will-change: transform;
 }
 
 [data-modal-fade] {
@@ -1097,4 +1117,9 @@ html {
   will-change: transform;
   line-height: 1.2 !important;
   overflow-x: visible;
+}
+
+[data-slide-in] {
+  --clip-value: polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%);
+  clip-path: var(--clip-value);
 }
