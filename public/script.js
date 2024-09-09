@@ -2,8 +2,8 @@
 
 function initializeAllScripts() {
   gsap.registerPlugin(CustomEase, ScrollTrigger, SplitText);
-  CustomEase.create("ease-in-out-quint", "0.86,0,0.07,1");
   CustomEase.create("custom-ease-out", "M0,0 C0.2,0.6 0.35,1 1,1 ");
+  CustomEase.create("ease-in-out-quart", "0.77,0,0.175,1");
 
   // Toggle Grid Visualizer
   document.addEventListener("keydown", (event) => {
@@ -31,19 +31,10 @@ function initializeAllScripts() {
         y: 0,
         "--clip-value": "polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%)",
         duration: 1.2,
-        delay: 0.2,
+        delay: 0.3,
         stagger: 0.1,
       })
-      .to("[data-fade-in]", { autoAlpha: 1, duration: 0.8 }, "-=0.9")
-      .to(
-        "[data-slide-in]",
-        {
-          "--clip-value": "polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%)",
-          duration: 0.5,
-          ease: "expo.inOut",
-        },
-        "<"
-      )
+      .to("[data-fade-in]", { opacity: 1, duration: 0.8 }, "-=1")
       .to(
         "[data-heading-reveal]",
         {
@@ -52,16 +43,25 @@ function initializeAllScripts() {
           duration: 0.63,
           stagger: 0.15,
         },
-        "<"
+        "-=1.25"
+      )
+      .to(
+        "[data-slide-in]",
+        {
+          "--transform-value": "0",
+          duration: 1.8,
+          ease: "ease-in-out-quart",
+        },
+        "-=0.7"
       )
       .to(
         "[data-scale-in]",
         {
           scale: 1,
-          duration: 1.63,
-          autoAlpha: 1,
+          duration: 1.8,
+          ease: "ease-in-out-quart",
         },
-        "<0.05"
+        "<"
       );
   }
 
