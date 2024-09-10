@@ -918,6 +918,7 @@ html {
     padding: 0;
     background-color: transparent;
     color: hsla(0, 0%, 100%, 0.4);
+    backdrop-filter: blur(0);
   }
 
   .left-content {
@@ -1009,6 +1010,10 @@ html {
   .enquires-wrapper .nav-list_item:nth-child(3) {
     margin-left: 0rem;
   }
+
+  .left-content .services .services-list {
+    gap: .25rem;
+  }
 }
 
 @media (max-width: 400px) {
@@ -1066,10 +1071,11 @@ html {
     padding-top: 17vh;
   }
 
-  /* .modal-footer h3,
+  .modal-footer h3,
   .modal-footer li {
-    font-size: 10px !important;
-  } */
+    font-size: 3.3vw !important;
+    text-wrap: nowrap;
+  }
 
   .modal-footer {
     bottom: 9vh;
@@ -1095,7 +1101,7 @@ html {
   }
 
   .left-content .services {
-    flex-basis: 45%;
+    flex-basis: 30%;
   }
 
   .modal-header {
