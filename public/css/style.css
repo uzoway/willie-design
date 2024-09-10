@@ -139,66 +139,66 @@ html {
 }
 
 .uc-fs13-fw950 {
-  font-size: clamp(0.8125rem, 0.8125rem + 0vw, 0.8125rem);
-  font-family: var(--ff-nhu-950);
-  font-weight: 950;
-  line-height: 1;
-  letter-spacing: -0.03em;
-  text-transform: uppercase;
+  font-size: clamp(0.8125rem, 0.8125rem + 0vw, 0.8125rem) !important;
+  font-family: var(--ff-nhu-950) !important;
+  font-weight: 950 !important;
+  line-height: 1 !important;
+  letter-spacing: -0.03em !important;
+  text-transform: uppercase !important;
 }
 
 .uc-fs13-fw800 {
-  font-size: clamp(0.8125rem, 0.8125rem + 0vw, 0.8125rem);
-  font-family: var(--ff-nhu-800-italic);
-  font-weight: 800;
-  line-height: 1;
-  letter-spacing: -0.03em;
-  text-transform: uppercase;
+  font-size: clamp(0.8125rem, 0.8125rem + 0vw, 0.8125rem) !important;
+  font-family: var(--ff-nhu-800-italic) !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+  letter-spacing: -0.03em !important;
+  text-transform: uppercase !important;
 }
 
 .uc-fs13-fw500 {
-  font-size: clamp(0.8125rem, 0.8125rem + 0vw, 0.8125rem);
-  font-family: var(--ff-nhu-500);
-  font-weight: 500;
-  line-height: 1;
-  letter-spacing: -0.03em;
-  color: var(--fc-black);
+  font-size: clamp(0.8125rem, 0.8125rem + 0vw, 0.8125rem) !important;
+  font-family: var(--ff-nhu-500) !important;
+  font-weight: 500 !important;
+  line-height: 1 !important;
+  letter-spacing: -0.03em !important;
+  color: var(--fc-black) !important;
 }
 
 .uc-fs13-fw400 {
-  font-size: clamp(0.8125rem, 0.8125rem + 0vw, 0.8125rem);
-  font-family: var(--ff-nhu-400);
-  font-weight: 400;
-  line-height: 1;
-  letter-spacing: -0.005em;
-  color: var(--fc-black);
+  font-size: clamp(0.8125rem, 0.8125rem + 0vw, 0.8125rem) !important;
+  font-family: var(--ff-nhu-400) !important;
+  font-weight: 400 !important;
+  line-height: 1 !important;
+  letter-spacing: -0.005em !important;
+  color: var(--fc-black) !important;
 }
 
 .uc-fs16-fw500 {
-  font-size: clamp(0.875rem, 0.8421rem + 0.1754vw, 1rem);
-  font-family: var(--ff-nhu-500);
-  font-weight: 500;
-  line-height: 1;
-  letter-spacing: -0.005em;
-  color: var(--fc-white-100);
+  font-size: clamp(0.875rem, 0.8421rem + 0.1754vw, 1rem) !important;
+  font-family: var(--ff-nhu-500) !important;
+  font-weight: 500 !important;
+  line-height: 1 !important;
+  letter-spacing: -0.005em !important;
+  color: var(--fc-white-100) !important;
 }
 
 .uc-ffroslindale-fs48-fw400 {
-  font-size: clamp(3rem, 3rem + 0vw, 3rem);
-  font-family: var(--ff-roslindale);
+  font-size: clamp(3rem, 3rem + 0vw, 3rem) !important;
+  font-family: var(--ff-roslindale) !important;
   font-weight: 400;
-  color: var(--fc-white-100);
-  line-height: 1;
-  letter-spacing: -0.02em;
+  color: var(--fc-white-100) !important;
+  line-height: 1 !important;
+  letter-spacing: -0.02em !important;
 }
 
 .uc-ffnhu-fs48-fw800 {
-  font-size: clamp(3rem, 3rem + 0vw, 3rem);
-  font-family: var(--ff-nhu-500);
-  font-weight: 500;
-  color: var(--fc-white-100);
-  line-height: 1;
-  letter-spacing: -0.02em;
+  font-size: clamp(3rem, 3rem + 0vw, 3rem) !important;
+  font-family: var(--ff-nhu-500) !important;
+  font-weight: 500 !important;
+  color: var(--fc-white-100) !important;
+  line-height: 1 !important;
+  letter-spacing: -0.02em !important;
 }
 
 /* Page styling */
