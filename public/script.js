@@ -1,5 +1,11 @@
 ("use strict");
 
+document.addEventListener("load", () => {
+  // Cloudinary responsive method
+  var cl = cloudinary.Cloudinary.new({ cloud_name: "dp20bvzhn" });
+  cl.responsive();
+});
+
 function initializeAllScripts() {
   gsap.registerPlugin(CustomEase, ScrollTrigger, SplitText);
   CustomEase.create("custom-ease-out", "M0,0 C0.2,0.6 0.35,1 1,1 ");
@@ -11,10 +17,6 @@ function initializeAllScripts() {
       document.querySelector(".overlay").classList.toggle("active");
     }
   });
-
-  // Cloudinary responsive method
-  var cl = cloudinary.Cloudinary.new({ cloud_name: "dp20bvzhn" });
-  cl.responsive();
 
   // Lenis smooth scroll
   const lenis = new Lenis();
