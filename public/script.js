@@ -414,5 +414,4 @@ function initializeAllScripts() {
   }
 }
 
-// window.addEventListener("DOMContentLoaded", initializeAllScripts);
 document.addEventListener("DOMContentLoaded", initializeAllScripts);
