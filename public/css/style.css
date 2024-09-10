@@ -194,8 +194,8 @@ html {
 
 .uc-ffnhu-fs48-fw800 {
   font-size: clamp(3rem, 3rem + 0vw, 3rem);
-  font-family: var(--ff-nhu-800);
-  font-weight: 800;
+  font-family: var(--ff-nhu-500);
+  font-weight: 500;
   color: var(--fc-white-100);
   line-height: 1;
   letter-spacing: -0.02em;
