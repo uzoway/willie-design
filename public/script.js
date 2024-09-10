@@ -384,6 +384,34 @@ function initializeAllScripts() {
       toggleModal();
     }
   }
+
+  // Function to detect if the device is a touch device
+  function isTouchDevice() {
+    return "ontouchstart" in window || navigator.maxTouchPoints > 0;
+  }
+
+  // Apply hover effect on mobile for all buttons
+  if (isTouchDevice()) {
+    const buttons = document.querySelectorAll("[data-hover-button");
+
+    buttons.forEach((button) => {
+      button.addEventListener("touchstart", () => {
+        button.classList.add("hover");
+      });
+
+      button.addEventListener("touchend", () => {
+        setTimeout(() => {
+          button.classList.remove("hover");
+        }, 250);
+      });
+
+      document.addEventListener("touchstart", (e) => {
+        if (!button.contains(e.target)) {
+          button.classList.remove("hover");
+        }
+      });
+    });
+  }
 }
 
 // window.addEventListener("DOMContentLoaded", initializeAllScripts);
