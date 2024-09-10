@@ -506,7 +506,6 @@ html {
 
 .modal-footer .send-message {
   background-color: var(--fc-grey-200);
-  width: fit-content;
 }
 
 .modal-footer .info-send_message:hover {
@@ -893,6 +892,10 @@ html {
 
   .info-send_message:hover {
     background-color: var(--fc-white-100);
+  }
+
+  .modal-footer .send-message {
+    width: fit-content;
   }
 
   .right-content p {
