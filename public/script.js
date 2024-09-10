@@ -12,6 +12,10 @@ function initializeAllScripts() {
     }
   });
 
+  // Cloudinary responsive method
+  var cl = cloudinary.Cloudinary.new({ cloud_name: "dp20bvzhn" });
+  cl.responsive();
+
   // Lenis smooth scroll
   const lenis = new Lenis();
 

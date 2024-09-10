@@ -1157,6 +1157,7 @@ html {
   will-change: transform;
   line-height: 1.2;
   overflow-x: visible;
+  width: fit-content;
 }
 
 [data-fade-in] {
