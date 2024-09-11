@@ -1145,6 +1145,20 @@ html {
     width: 1.5rem !important;
     height: 1.5rem !important;
   }
+
+  .c-footer .top-wrapper {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .c-footer .top-wrapper .enquires-wrapper {
+    text-align: right;
+  }
+
+  .enquires-wrapper .nav-list_item:nth-child(2),
+  .enquires-wrapper .nav-list_item:nth-child(3) {
+    flex: 1 1 100%;
+  }
 }
 
 /* Styles for GSAP Animation */
